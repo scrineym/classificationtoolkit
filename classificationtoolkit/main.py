@@ -15,14 +15,14 @@ from .utils import opts
 
 
 class ClassificationToolkit:
-    def __init__(self, df, x, y, output_dir, train_split=0.2, opts=opts):
+    def __init__(self, df, y, output_dir, train_split=0.2, opts=opts):
         self.df = df
-        self.xcols = x
         self.ycol = y
         self.output_dir = output_dir
         self.opts = opts
-        X = df[self.xcols]
-        y = df[self.ycol]
+        y = df[[self.ycol]]
+        x_cols = [x for x in list(df.columns) if x != y]
+        X = df[x_cols]
         self.X_train, self.X_test, self.y_train, self.y_test = train_test_split(X, y, test_size=train_split, random_state=1, stratify=y)
         undersample = RandomUnderSampler()
         self.under_x_train, self.under_y_train = undersample.fit_resample(self.X_train.to_numpy(), self.y_train)

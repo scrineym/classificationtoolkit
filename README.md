@@ -25,7 +25,7 @@ import numpy as np
 df = pd.DataFrame(np.random.randint(0, 5, size=(100, 4)), columns=list('ABCD'))
 
 # Setup CLTK
-cc = ClassificationToolkit(df, ['A', 'B', 'C'], ['D'], './test')
+cc = ClassificationToolkit(df, 'D', './test')
 cc.run_classifications()
 
 
