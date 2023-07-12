@@ -1,1 +1,1 @@
-from main import ClassificationToolkit
+from .main import ClassificationToolkit

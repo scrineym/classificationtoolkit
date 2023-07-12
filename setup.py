@@ -24,7 +24,6 @@ setuptools.setup(
                       'scikit-learn',
                       'hyperopt',
                       'xgboost',
-                      'imbalanced-learn',
-                      'tqdm'
+                      'imbalanced-learn'
                       ],
 )

@@ -15,7 +15,7 @@ opts = [
         'model': tree.DecisionTreeClassifier,
         'evals': 10,
         'search_space': {
-            'max_features': hp.choice('max_features', ['auto', 'sqrt', 'log2']),
+            'max_features': hp.choice('max_features', ['sqrt', 'log2']),
             'max_depth': hp.choice('max_depth', [None, 2, 3, 4, 5]),
             'criterion': hp.choice('criterion', ['gini', 'entropy', 'log_loss']),
         },
@@ -38,7 +38,7 @@ opts = [
         'search_space': {
             'learning_rate':hp.choice('learning_rate', [0.1, 0.25, 0.5, 0.75]),
             'n_estimators': hp.choice('n_estimators', [750,  800, 850, 900, 950]),
-            'subsample': hp.choice('subsample', [0.1, 0/25, 0.5, 0.75])
+            'subsample': hp.choice('subsample', [0.1, 0.25, 0.5, 0.75])
         }
     },
     {

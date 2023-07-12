@@ -1,9 +1,7 @@
 import os
-import polars as pl
 import numpy as np
 import pandas as pd
 import seaborn as sns
-from haversine import haversine, Unit
 from datetime import datetime, timedelta
 from sklearn.preprocessing import MinMaxScaler, LabelEncoder, StandardScaler
 from sklearn.model_selection import train_test_split
@@ -12,9 +10,8 @@ from sklearn.metrics import accuracy_score, f1_score, classification_report, con
 from imblearn.under_sampling import RandomUnderSampler
 from imblearn.over_sampling import SMOTE
 from imblearn.over_sampling import RandomOverSampler
-from tdqm import tqdm
 import pickle
-from utils import opts
+from .utils import opts
 
 
 class ClassificationToolkit:
@@ -37,11 +34,11 @@ class ClassificationToolkit:
 
     def run_classifications(self):
         sampling = ['unsampled', 'undersampled', 'oversampled', 'smote']
-        for cls in opts:
+        for cls in self.opts:
             model = cls['model']
             evals = cls['evals']
             search_space = cls['search_space']
-            name = model['name']
+            name = cls['name']
             for samp in sampling:
                 if samp == "undersampled":
                     x = self.under_x_train
@@ -60,7 +57,7 @@ class ClassificationToolkit:
 
     def run_classifier(self, x_train, y_train, x_test, y_test, method, search_space, max_evals, prefix):
 
-        def method_inner():
+        def method_inner(search_space):
             model = method(**search_space)
             model.fit(x_train, y_train)
             y_pred = model.predict(x_test)
@@ -71,10 +68,10 @@ class ClassificationToolkit:
         best_params = fmin(fn=method_inner, space=search_space, max_evals=max_evals, trials=trials, algo=tpe.suggest)
         space_eval(search_space, best_params)
         best_model = trials.results[np.argmin([r['loss'] for r in trials.results])]['model']
-        pickle.dump(best_model, open(os.path.join([self.output_dir, f'{prefix}_model.sav']), 'wb'))
+        pickle.dump(best_model, open(os.path.join(self.output_dir, f'{prefix}_model.sav'), 'wb'))
         best_predicted_results = trials.results[np.argmin([r['loss'] for r in trials.results])]['pred']
         report = pd.DataFrame(classification_report(y_test, best_predicted_results, output_dict=True)).transpose()
-        report.to_csv(os.path.join([self.output_dir, f'{prefix}_classification_report.csv']), index=False)
+        report.to_csv(os.path.join(self.output_dir, f'{prefix}_classification_report.csv'), index=False)
 
 
 
