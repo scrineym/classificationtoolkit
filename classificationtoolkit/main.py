@@ -21,7 +21,7 @@ class ClassificationToolkit:
         self.output_dir = output_dir
         self.opts = opts
         y = df[[self.ycol]]
-        x_cols = [x for x in list(df.columns) if x != y]
+        x_cols = [x for x in list(df.columns) if x != self.ycol]
         X = df[x_cols]
         self.X_train, self.X_test, self.y_train, self.y_test = train_test_split(X, y, test_size=train_split, random_state=1, stratify=y)
         undersample = RandomUnderSampler()
