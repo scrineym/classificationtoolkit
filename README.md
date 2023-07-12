@@ -7,5 +7,6 @@ A quick way of running multiple classifiers
 To install run 
 
 ```shell
-pip install git+
+pip install git+https://github.com/scrineym/classificationtoolkit.git
 ```
+
