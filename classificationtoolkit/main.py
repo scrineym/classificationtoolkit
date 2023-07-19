@@ -71,7 +71,7 @@ class ClassificationToolkit:
         pickle.dump(best_model, open(os.path.join(self.output_dir, f'{prefix}_model.sav'), 'wb'))
         best_predicted_results = trials.results[np.argmin([r['loss'] for r in trials.results])]['pred']
         report = pd.DataFrame(classification_report(y_test, best_predicted_results, output_dict=True)).transpose()
-        report.to_csv(os.path.join(self.output_dir, f'{prefix}_classification_report.csv'), index=False)
+        report.to_csv(os.path.join(self.output_dir, f'{prefix}_classification_report.csv'))
 
 
 
